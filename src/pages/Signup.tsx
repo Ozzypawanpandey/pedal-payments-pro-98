@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/components/ui/use-toast";
-import { LogIn, Lock, Mail, AlertCircle, LucideGoogle, User, UserPlus } from "lucide-react";
+import { LogIn, Lock, Mail, AlertCircle, Github, User, UserPlus } from "lucide-react";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -142,7 +142,7 @@ const Signup = () => {
               onClick={handleGoogleSignup}
               disabled={isLoading}
             >
-              <LucideGoogle className="mr-2 h-4 w-4" />
+              <Github className="mr-2 h-4 w-4" />
               Sign up with Google
             </Button>
             

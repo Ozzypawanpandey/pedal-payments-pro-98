@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/components/ui/use-toast";
-import { LogIn, Lock, Mail, AlertCircle, LucideGoogle } from "lucide-react";
+import { LogIn, Lock, Mail, AlertCircle, Github } from "lucide-react";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -122,7 +122,7 @@ const Login = () => {
               onClick={handleGoogleLogin}
               disabled={isLoading}
             >
-              <LucideGoogle className="mr-2 h-4 w-4" />
+              <Github className="mr-2 h-4 w-4" />
               Continue with Google
             </Button>
             
