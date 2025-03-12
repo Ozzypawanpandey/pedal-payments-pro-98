@@ -111,7 +111,7 @@ const Bookings = () => {
             <BookingCard
               key={booking.id}
               booking={booking}
-              bike={mockBikes[booking.bikeId]}
+              bike={mockBikes[booking.bikeId]} // Pass bike as a prop
               onClick={() => navigate(`/bookings/${booking.id}`)}
             />
           ))}

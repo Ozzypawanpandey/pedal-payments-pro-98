@@ -2,8 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { Bike, Menu, X, User, ShoppingBag } from 'lucide-react';
+import { Bike, Menu, X, User, ShoppingBag, LogIn } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { ThemeToggle } from '@/components/ui/ThemeToggle';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -34,7 +35,7 @@ const Navbar = () => {
     <header 
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out py-4',
-        isScrolled ? 'bg-white/80 backdrop-blur-md shadow-sm' : 'bg-transparent'
+        isScrolled ? 'bg-background/80 backdrop-blur-md shadow-sm' : 'bg-transparent'
       )}
     >
       <nav className="container mx-auto px-6 flex justify-between items-center">
@@ -66,33 +67,45 @@ const Navbar = () => {
 
         {/* Account and Bookings */}
         <div className="hidden md:flex items-center space-x-4">
+          <ThemeToggle />
+
           <Link to="/bookings">
             <Button variant="ghost" size="icon">
               <ShoppingBag className="h-5 w-5" />
             </Button>
           </Link>
-          <Link to="/profile">
-            <Button variant="outline" size="sm" className="rounded-full px-4">
+
+          <Link to="/login">
+            <Button variant="ghost" size="sm" className="rounded-full px-4">
+              <LogIn className="h-4 w-4 mr-2" />
+              Login
+            </Button>
+          </Link>
+
+          <Link to="/signup">
+            <Button variant="default" size="sm" className="rounded-full px-4">
               <User className="h-4 w-4 mr-2" />
-              Profile
+              Signup
             </Button>
           </Link>
         </div>
 
         {/* Mobile Menu Toggle */}
-        <button 
-          className="md:hidden"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
+        <div className="md:hidden flex items-center space-x-4">
+          <ThemeToggle />
+          <button 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
       </nav>
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="md:hidden animate-fade-in">
-          <div className="px-6 py-4 space-y-4 glassmorphism shadow-lg">
+          <div className="px-6 py-4 space-y-4 bg-background/90 backdrop-blur-md shadow-lg">
             {navItems.map((item) => (
               <Link
                 key={item.path}
@@ -112,9 +125,13 @@ const Navbar = () => {
                 <ShoppingBag className="h-4 w-4 mr-2" />
                 My Bookings
               </Link>
-              <Link to="/profile" className="flex items-center text-sm font-medium py-2">
+              <Link to="/login" className="flex items-center text-sm font-medium py-2">
+                <LogIn className="h-4 w-4 mr-2" />
+                Login
+              </Link>
+              <Link to="/signup" className="flex items-center text-sm font-medium py-2">
                 <User className="h-4 w-4 mr-2" />
-                Profile
+                Signup
               </Link>
             </div>
           </div>

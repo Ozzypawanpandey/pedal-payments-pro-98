@@ -4,17 +4,17 @@ import { Link } from 'react-router-dom';
 import { Clock, Calendar, CheckCircle, XCircle } from 'lucide-react';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Booking } from '@/lib/types';
+import { Bike, Booking } from '@/lib/types';
 import { formatCurrency, formatDate, getBikeById, getStatusColor } from '@/lib/utils';
 
 interface BookingCardProps {
   booking: Booking;
+  bike: Bike;  // Added the bike prop
   onCancel?: (bookingId: string) => void;
+  onClick?: () => void; // Added onClick handler
 }
 
-const BookingCard: React.FC<BookingCardProps> = ({ booking, onCancel }) => {
-  const bike = getBikeById(booking.bikeId);
-  
+const BookingCard: React.FC<BookingCardProps> = ({ booking, bike, onCancel, onClick }) => {
   if (!bike) return null;
   
   const canCancel = booking.status === 'pending' || booking.status === 'confirmed';
@@ -78,9 +78,13 @@ const BookingCard: React.FC<BookingCardProps> = ({ booking, onCancel }) => {
       </CardContent>
       
       <CardFooter className="px-5 pb-5 pt-0 flex justify-between gap-2">
-        <Link to={`/bookings/${booking.id}`} className="flex-1">
-          <Button variant="outline" className="w-full">View Details</Button>
-        </Link>
+        {onClick ? (
+          <Button variant="outline" className="w-full" onClick={onClick}>View Details</Button>
+        ) : (
+          <Link to={`/bookings/${booking.id}`} className="flex-1">
+            <Button variant="outline" className="w-full">View Details</Button>
+          </Link>
+        )}
         
         {canCancel && onCancel && (
           <Button 

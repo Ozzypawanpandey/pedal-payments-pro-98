@@ -1,7 +1,7 @@
 
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { format, differenceInDays, differenceInHours } from "date-fns";
+import { format, differenceInDays, differenceInHours, addDays } from "date-fns";
 import { BIKES } from "./constants";
 import { Bike, Booking } from "./types";
 
@@ -25,8 +25,17 @@ export function formatDateTime(date: Date): string {
 }
 
 export function calculateRentalDuration(startDate: Date, endDate: Date): { days: number; hours: number } {
-  const days = differenceInDays(endDate, startDate);
-  const remainingHours = differenceInHours(endDate, new Date(startDate.getTime() + days * 24 * 60 * 60 * 1000));
+  // Add one day to end date since rentals are inclusive of the end date
+  const adjustedEndDate = addDays(endDate, 1);
+  
+  // Calculate full days
+  const days = differenceInDays(adjustedEndDate, startDate);
+  
+  // Calculate remaining hours
+  const remainingHours = differenceInHours(
+    adjustedEndDate, 
+    new Date(startDate.getTime() + days * 24 * 60 * 60 * 1000)
+  );
   
   return {
     days,
@@ -37,8 +46,21 @@ export function calculateRentalDuration(startDate: Date, endDate: Date): { days:
 export function calculateRentalCost(bike: Bike, startDate: Date, endDate: Date): number {
   const { days, hours } = calculateRentalDuration(startDate, endDate);
   
+  // If rental period is less than 24 hours, charge hourly up to the daily rate
+  if (days === 0 && hours > 0) {
+    return Math.min(hours * bike.pricePerHour, bike.pricePerDay);
+  }
+  
+  // Calculate base cost for full days
   const dailyCost = days * bike.pricePerDay;
+  
+  // Add hourly cost for additional hours (if any)
   const hourlyCost = hours * bike.pricePerHour;
+  
+  // If hourly cost exceeds daily rate, charge another day
+  if (hourlyCost > bike.pricePerDay) {
+    return dailyCost + bike.pricePerDay;
+  }
   
   return dailyCost + hourlyCost;
 }

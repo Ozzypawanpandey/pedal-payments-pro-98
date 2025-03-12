@@ -42,7 +42,7 @@ const Checkout = () => {
   const [startDate, setStartDate] = useState<Date | undefined>(new Date());
   const [endDate, setEndDate] = useState<Date | undefined>(addDays(new Date(), 3));
   const [userLocation, setUserLocation] = useState<UserLocation>('nepal');
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string | null>(null);
+  const [selectedPayment, setSelectedPayment] = useState<string | null>(null); // Renamed from selectedPaymentMethod
   const [contactInfo, setContactInfo] = useState({
     name: '',
     email: '',
@@ -70,7 +70,7 @@ const Checkout = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!selectedPaymentMethod) {
+    if (!selectedPayment) {
       toast({
         title: "Payment method required",
         description: "Please select a payment method to proceed",
@@ -227,8 +227,8 @@ const Checkout = () => {
                 
                 <PaymentSelector
                   userLocation={userLocation}
-                  selectedPaymentMethod={selectedPaymentMethod}
-                  onSelectPaymentMethod={setSelectedPaymentMethod}
+                  selectedPayment={selectedPayment} // Renamed from selectedPaymentMethod
+                  onSelectPaymentMethod={setSelectedPayment} // This is still the setter
                 />
               </CardContent>
             </Card>

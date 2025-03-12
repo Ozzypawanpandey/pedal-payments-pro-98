@@ -128,6 +128,14 @@ const BookingDetail = () => {
     navigate('/bookings');
   };
 
+  const handlePayNow = () => {
+    toast({
+      title: "Payment initiated",
+      description: "You will be redirected to the payment gateway.",
+    });
+    // In a real app, this would redirect to a payment gateway
+  };
+
   if (isLoading) {
     return (
       <div className="container py-12 flex items-center justify-center">
@@ -268,7 +276,7 @@ const BookingDetail = () => {
               </div>
               
               {booking.paymentStatus !== 'paid' && (
-                <Button className="w-full mt-4">
+                <Button className="w-full mt-4" onClick={handlePayNow}>
                   Pay Now
                 </Button>
               )}
